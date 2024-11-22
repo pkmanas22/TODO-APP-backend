@@ -13,6 +13,8 @@ connectDB(process.env.MONGO_URL)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+app.use('/api/v1/task', require('./routes/taskRoute'))
+
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
