@@ -16,17 +16,15 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/v1/task', require('./routes/taskRoute'))
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.send('<h1 style="text-align: center;">Welcome to TODO-APP</h1>')
 })
 
 app.use('*', (req, res) => {
     res
         .status(404)
-        .json({
-            message: "Invalid endpoint / route"
-        })
+        res.send('<h1 style="text-align: center; color: red;">404 Page not found</h1>')
 })
 
 app.listen(port, () => {
-    console.log("Server is running on port " + port)
+    console.log("Server is running on port " + port + " :: http://localhost:" + port)
 })
