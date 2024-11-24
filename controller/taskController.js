@@ -1,7 +1,7 @@
 const Task = require('../models/taskModel');
 
 const createTask = async (req, res) => {
-    const { title, description, dueDate } = req.body;
+    const { title, description, dueDate, category } = req.body;
 
     const parseDate = new Date(dueDate);
 
@@ -16,7 +16,8 @@ const createTask = async (req, res) => {
         const newTask = await Task.create({
             title,
             description,
-            dueDate: parseDate
+            dueDate: parseDate,
+            category: category || "normal",
         })
 
         return res.status(201).json({
@@ -27,6 +28,7 @@ const createTask = async (req, res) => {
                 title: newTask.title,
                 description: newTask.description,
                 dueDate: newTask.dueDate.toLocaleDateString(),
+                category: newTask.category
             },
         });
     } catch (error) {
@@ -46,7 +48,8 @@ const getAllTasks = async (req, res) => {
             title: 1,
             description: 1,
             completed: 1,
-            dueDate: 1
+            dueDate: 1,
+            category: 1
         });
         return res.status(200).json({
             success: true,
@@ -92,29 +95,31 @@ const markTaskCompleted = async (req, res) => {
 }
 
 const editTask = async (req, res) => {
-    const { title, description, dueDate } = req.body;
+    const { title, description, dueDate, category } = req.body;
     const task = req.task;
 
     const parseDate = new Date(dueDate);
     
     try {
-        if (title == "" || description == "" || dueDate == "" ) {
+        if (title == "" || description == "" || dueDate == "" || category == "") {
             return res.status(400).json({
                 success: false,
                 message: "Please fill the required fields.",
             });
         }
     
-        if (title == task.title && description == task.description && parseDate.toString() == task.dueDate.toString()) {
+        if (title == task.title && description == task.description && parseDate.toString() == task.dueDate.toString() && category == task.category) {
             return res.status(400).json({
                 success: false,
                 message: "No changes detected. Task is already up-to-date.",
             });
         }
     
-        task.title = title || task.title;
-        task.description = description || task.description;
-        task.dueDate = parseDate || task.dueDate;
+        if (title) task.title = title;
+        if (description) task.description = description;
+        if (parseDate) task.dueDate = parseDate;
+        if (category) task.category = category;
+
         await task.save();
     
         return res.status(200).json({
@@ -125,6 +130,7 @@ const editTask = async (req, res) => {
                 title: task.title,
                 description: task.description,
                 dueDate: task.dueDate.toLocaleDateString(),
+                category: task.category
             },
         });
     } catch (error) {

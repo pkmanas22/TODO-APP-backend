@@ -17,6 +17,11 @@ const taskSchema = new mongoose.Schema({
     dueDate: {
         type: Date,
         required: true
+    },
+    category: {
+        type: String,
+        enum: ["urgent", "important", "normal"],
+        default: "normal"
     }
 }, {
     timestamps: true
