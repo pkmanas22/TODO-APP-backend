@@ -11,7 +11,7 @@
 
 ## Overview
 
-This is a simple TODO-APP using nodejs, express and mongodb. 
+This is a simple TODO-APP using nodejs, express and mongodb.
 
 ## Installation
 
@@ -58,7 +58,9 @@ To use this app, run the following command:
    ```
    {
        "title": "Buy milk",
-       "description": "Buy milk from the store"
+       "description": "Buy milk from the store",
+       "dueDate": 2025-01-01",
+       "category": "important"
    }
    ```
    Must provide below json data in the request body
@@ -68,7 +70,9 @@ To use this app, run the following command:
    ```
    {
        "title": "Buy milk",
-       "description": "Buy milk from the store"
+       "description": "Buy milk from the store",
+       "dueDate": 2025-01-01",
+       "category": "important"
    }
    ```
 
@@ -103,9 +107,9 @@ To use this app, run the following command:
 6. `config/`
 
    - Contains all the configuration files for the app. This includes `connector.js`, `middleware.js` and `validator.js` file.
-   - `connector.js` contains the code for connecting to the database.
+   - `connector.js` contains the code for connecting to the mongoDB database.
    - `middleware.js` contains the code for checking if the `id` exists or not for editing a task, marking a task as completed and deleting a task.
-   - `validator.js` contains the code for validating the title field should not be empty.
+   - `validator.js` contains the code for validating the title field should not be empty, due date should be in the future date and category should be either `important` or `urgent` or `normal`.
 
 7. `routes/`
 
@@ -115,12 +119,12 @@ To use this app, run the following command:
 8. `models/`
 
    - Contains all the models for the app. This includes `taskModel.js` file.
-   - `taskModel.js` contains the definition of the task model.
+   - `taskModel.js` contains the definition of the task model like title, description, completed, due date and category.
 
 9. `controllers/`
 
    - Contains all the controllers for the app. This includes `taskController.js` file.
-   - `taskController.js` contains the definition of the task controller.
+   - `taskController.js` contains the definition of the task controller like creating a task, getting a list of all tasks, editing a task, marking a task as completed and deleting a task.
 
 10. `assets/`
     - Contains all the assets (images) for the app.
@@ -144,6 +148,12 @@ To use this app, run the following command:
 - I used `try...catch` block for error handling.
 
 - I gave each response a status code and a meaningful message.
+
+- I updated the error messages to be more descriptive and user-friendly.
+
+- I added due date for all tasks and validated it using `validator.js` file.
+
+- I added category for all tasks and validated it using `validator.js` file. Category should be `['urgent', 'important', 'normal']` only.
 
 ## Thank you for reading.
 
