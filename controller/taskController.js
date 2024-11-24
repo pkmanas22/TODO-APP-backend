@@ -84,7 +84,7 @@ const editTask = async (req, res) => {
     const task = req.task;
 
     try {
-        if (!title) {
+        if (title == "") {
             return res.status(400).json({
                 success: false,
                 message: "Task title is required for updating.",
@@ -98,8 +98,8 @@ const editTask = async (req, res) => {
             });
         }
     
-        task.title = title;
-        task.description = description;
+        task.title = title || task.title;
+        task.description = description || task.description;
         await task.save();
     
         return res.status(200).json({
